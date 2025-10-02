@@ -1,24 +1,29 @@
 package org.example;
 
 import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
+import java.util.Scanner;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     public static void main(String[] args) {
-        double[] values = new double[] {65, 51, 16, 11, 6519, 191,0, 98, 19854, 1, 32};
-        DescriptiveStatistics descriptiveStatistics = new DescriptiveStatistics();
-        for (double v : values) {
-            descriptiveStatistics.addValue(v);
+        Scanner scanner = new Scanner(System.in);
+        DescriptiveStatistics stats = new DescriptiveStatistics();
+
+        System.out.println("Digite números (um por linha, 'fim' para terminar):");
+
+        while (scanner.hasNext()) {
+            String input = scanner.next();
+            if (input.equalsIgnoreCase("fim")) break;
+
+            try {
+                double value = Double.parseDouble(input);
+                stats.addValue(value);
+            } catch (NumberFormatException e) {
+                System.out.println("Número inválido, tente novamente.");
+            }
         }
 
-        double mean = descriptiveStatistics.getMean();
-        double median = descriptiveStatistics.getPercentile(50);
-        double standardDeviation = descriptiveStatistics.getStandardDeviation();
-
-// Adicione prints para ver os resultados
-        System.out.println("Mean: " + mean);
-        System.out.println("Median: " + median);
-        System.out.println("Standard Deviation: " + standardDeviation);
+        System.out.println("Média: " + stats.getMean());
+        System.out.println("Mediana: " + stats.getPercentile(50));
+        System.out.println("Desvio Padrão: " + stats.getStandardDeviation());
     }
 }
